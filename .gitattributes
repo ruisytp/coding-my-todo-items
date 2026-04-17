@@ -1,0 +1,34 @@
+# 设置行尾处理方式
+* text=auto
+
+# 为特定文件设置行尾
+*.js text eol=lf
+*.ts text eol=lf
+*.vue text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.scss text eol=lf
+*.txt text eol=lf
+
+# 处理锁文件
+package-lock.json text eol=lf
+yarn.lock text eol=lf
+
+# 图片和其他二进制文件
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+
+# Windows兼容性
+*.bat text eol=crlf
+*.cmd text eol=crlf
