@@ -5,36 +5,36 @@
       todo.completed ? 'bg-green-50 border-green-200' : 'bg-white border-gray-200'
     ]"
   >
-    <div class="flex items-start space-x-3">
+    <div class="flex items-start space-x-3 w-full max-w-[50%]">
       <input 
         type="checkbox" 
         :checked="todo.completed"
         @change="$emit('toggle-completed', todo.id)"
         class="mt-1 h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
       />
-      <div>
-        <h4 :class="['font-medium text-gray-800', { 'line-through text-gray-500': todo.completed }]">
+      <div class="flex-1">
+        <h4 :class="['font-bold text-gray-800', { 'line-through text-gray-500': todo.completed }]">
           {{ todo.title }}
         </h4>
         <p class="text-sm text-gray-600 mt-1">{{ todo.description }}</p>
-        <div class="flex flex-wrap gap-2 mt-2">
-          <span class="text-xs px-2 py-1 rounded-full bg-blue-100 text-blue-800">
-            {{ getCategoryText(todo.category) }}
-          </span>
-          <span 
-            class="text-xs px-2 py-1 rounded-full" 
-            :class="getPriorityClass(todo.priority)"
-          >
-            {{ getPriorityText(todo.priority) }}
-          </span>
-          <span 
-            v-if="todo.dueDate" 
-            class="text-xs px-2 py-1 rounded-full bg-purple-100 text-purple-800"
-          >
-            截止: {{ formatDate(todo.dueDate) }}
-          </span>
-        </div>
       </div>
+    </div>
+    <div class="flex items-center space-x-5">
+      <span class="text-sm font-bold px-3 py-1 rounded-full bg-blue-100 text-blue-800">
+        {{ getCategoryText(todo.category) }}
+      </span>
+      <span 
+        class="text-sm font-bold px-3 py-1 rounded-full" 
+        :class="getPriorityClass(todo.priority)"
+      >
+        {{ getPriorityText(todo.priority) }}
+      </span>
+      <span 
+        v-if="todo.dueDate" 
+        class="text-sm font-bold px-3 py-1 rounded-full bg-purple-100 text-purple-800"
+      >
+        截至：{{ formatDate(todo.dueDate) }}
+      </span>
     </div>
     <div class="flex space-x-2">
       <button 
@@ -46,7 +46,7 @@
         </svg>
       </button>
       <button 
-        @click="$emit('remove', todo.id)"
+        @click="showConfirmDialog"
         class="text-red-500 hover:text-red-700"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -54,23 +54,65 @@
         </svg>
       </button>
     </div>
+    
+    <!-- 删除确认弹窗 -->
+    <div 
+      v-if="showDeleteConfirm" 
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    >
+      <div class="bg-white rounded-lg p-6 max-w-sm w-full mx-4">
+        <h3 class="text-lg font-bold text-gray-800 mb-4">确认删除</h3>
+        <p class="text-gray-600 mb-6">确定要删除 "{{ todo.title }}" 吗？此操作无法撤销。</p>
+        <div class="flex justify-end space-x-3">
+          <button 
+            @click="cancelDelete"
+            class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+          >
+            取消
+          </button>
+          <button 
+            @click="confirmDelete"
+            class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+          >
+            确认删除
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import { TodoItem as TodoItemType, Category, Priority } from '@/types/todo';
 
 interface Props {
   todo: TodoItemType;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
-defineEmits<{
+const emit = defineEmits<{
   'toggle-completed': [id: string];
   'remove': [id: string];
   'edit': [todo: TodoItemType];
 }>();
+
+// 删除确认状态
+const showDeleteConfirm = ref(false);
+
+const showConfirmDialog = () => {
+  showDeleteConfirm.value = true;
+};
+
+const cancelDelete = () => {
+  showDeleteConfirm.value = false;
+};
+
+const confirmDelete = () => {
+  emit('remove', props.todo.id);
+  showDeleteConfirm.value = false;
+};
 
 const getCategoryText = (category: Category) => {
   switch(category) {
