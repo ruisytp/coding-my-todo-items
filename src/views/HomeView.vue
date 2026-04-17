@@ -1,11 +1,11 @@
 <template>
   <div class="flex max-w-6xl mx-auto min-h-screen">
     <!-- 左侧列 (占2/5宽度) -->
-    <div class="w-2/5 pr-4">
+    <div class="w-2/5 pr-0">  <!-- 修改：移除右边距 -->
       <!-- 统计功能 -->
-      <div class="mb-8">
-        <h2 class="text-xl font-bold text-gray-800 mb-4">统计功能</h2>
-        <div class="space-y-3">
+      <div class="mb-8 w-full">
+        <h2 class="text-xl font-bold text-gray-800 mb-4 text-left">统计功能</h2>
+        <div class="space-y-3 border border-gray-200 rounded-lg p-4 bg-white w-full">
           <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
             <span class="text-gray-700">总任务</span>
             <span class="text-2xl font-bold text-gray-800">{{ stats.total }}</span>
@@ -26,21 +26,23 @@
       </div>
       
       <!-- 分类筛选 -->
-      <div>
-        <h2 class="text-xl font-bold text-gray-800 mb-4">分类筛选</h2>
-        <div class="space-y-2">
-          <button 
-            v-for="category in ['全部任务', '工作', '学习', '生活', '旅游']" 
-            :key="category"
-            :class="[
-              'w-full text-left px-4 py-2 rounded-lg transition-colors',
-              { 'bg-blue-100 text-blue-600': activeCategory === category },
-              { 'bg-gray-100 text-gray-700': activeCategory !== category }
-            ]"
-            @click="setActiveCategory(category)"
-          >
-            {{ category }}
-          </button>
+      <div class="w-full">
+        <h2 class="text-xl font-bold text-gray-800 mb-4 text-left">分类筛选</h2>
+        <div class="border border-gray-200 rounded-lg p-4 bg-white w-full">
+          <div class="space-y-2">
+            <button 
+              v-for="category in ['全部任务', '工作', '学习', '生活', '旅游']" 
+              :key="category"
+              :class="[
+                'w-full text-left px-4 py-2 rounded-lg transition-colors',
+                { 'bg-blue-100 text-blue-600': activeCategory === category },
+                { 'bg-gray-100 text-gray-700': activeCategory !== category }
+              ]"
+              @click="setActiveCategory(category)"
+            >
+              {{ category }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
