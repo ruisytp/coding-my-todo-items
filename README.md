@@ -13,12 +13,12 @@
 
 ## 技术栈
 
-- Vue 3 + TypeScript
+- Vue 3 + TypeScript (Composition API)
 - Vue Router
 - Tailwind CSS
 - Vite 构建工具
-- Zustand 状态管理（计划集成）
 - 本地存储（localStorage）
+- 环境变量支持 (.env files)
 
 ## 安装与运行
 
@@ -36,11 +36,29 @@
 
 4. 在浏览器中访问 [http://localhost:5173](http://localhost:5173)
 
+## 环境变量
+
+项目支持环境变量配置：
+
+- `.env.development` - 开发环境配置
+- `.env.production` - 生产环境配置
+
+环境变量前缀为 `VITE_` 的变量可以在客户端代码中通过 `import.meta.env` 访问。
+
 ## 构建生产版本
 
 ```bash
 npm run build
 ```
+
+构建输出位于 `dist/` 目录。
+
+## 开发脚本
+
+- `npm run dev` - 启动开发服务器
+- `npm run build` - 构建生产版本
+- `npm run preview` - 预览生产构建
+- `npm run type-check` - TypeScript类型检查
 
 ## 项目结构
 
@@ -50,12 +68,19 @@ src/
 ├── components/       # 可复用组件
 ├── views/            # 页面视图
 ├── router/           # 路由配置
-├── store/            # 状态管理
+├── store/            # 状态管理 (Vue响应式)
 ├── types/            # 类型定义
 ├── styles/           # 全局样式
 ├── App.vue           # 主应用组件
 └── main.ts           # 应用入口
 ```
+
+## 配置文件
+
+- `vite.config.ts` - Vite构建配置
+- `tsconfig.json` - TypeScript配置
+- `tailwind.config.cjs` - Tailwind CSS配置
+- `postcss.config.cjs` - PostCSS配置
 
 ## 设计风格
 
