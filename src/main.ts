@@ -11,7 +11,7 @@ document.title = appTitle;
 const app = createApp(App)
 
 // 全局错误处理
-app.config.errorHandler = (err, instance, info) => {
+app.config.errorHandler = (err, _instance, info) => {
   console.error('全局错误:', err);
   console.error('错误信息:', info);
   // 可以在这里添加错误上报逻辑
@@ -19,7 +19,7 @@ app.config.errorHandler = (err, instance, info) => {
 
 // 全局警告处理（仅在开发环境）
 if (import.meta.env.DEV) {
-  app.config.warnHandler = (msg, instance, trace) => {
+  app.config.warnHandler = (msg, _instance, trace) => {
     console.warn('Vue警告:', msg);
     console.warn('警告追踪:', trace);
   };

@@ -305,10 +305,12 @@ const addNewTodo = () => {
 
   try {
     console.log("准备添加待办事项", newTodo.value);
+    // 确保 category 不是 'all'，因为 TodoItem 的 category 不包含 'all'
+    const actualCategory = newTodo.value.category === 'all' ? 'other' : newTodo.value.category;
     addTodo({
       title: newTodo.value.title,
       description: newTodo.value.description,
-      category: newTodo.value.category as Category || 'other',
+      category: actualCategory || 'other',
       priority: newTodo.value.priority as Priority || 'medium',
       dueDate: newTodo.value.dueDate || undefined
     });
@@ -388,39 +390,5 @@ const updateTodo = () => {
 const cancelEdit = () => {
   showEditDialog.value = false;
   editingTodo.value = null;
-};
-
-const getCategoryText = (category: Category) => {
-  switch(category) {
-    case 'work': return '工作';
-    case 'study': return '学习';
-    case 'life': return '生活';
-    case 'travel': return '旅游';
-    case 'other': return '其他';
-    default: return category;
-  }
-};
-
-const getPriorityText = (priority: Priority) => {
-  switch(priority) {
-    case 'low': return '低优先级';
-    case 'medium': return '中优先级';
-    case 'high': return '高优先级';
-    default: return priority;
-  }
-};
-
-const getPriorityClass = (priority: Priority) => {
-  switch(priority) {
-    case 'low': return 'bg-green-100 text-green-800';
-    case 'medium': return 'bg-yellow-100 text-yellow-800';
-    case 'high': return 'bg-red-100 text-red-800';
-    default: return '';
-  }
-};
-
-const formatDate = (dateString: string) => {
-  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
-  return new Date(dateString).toLocaleDateString('zh-CN', options);
 };
 </script>
